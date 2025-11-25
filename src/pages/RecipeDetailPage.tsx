@@ -3,6 +3,7 @@ import { Container, Card, Spinner, Alert, Button } from 'react-bootstrap';
 import { observer } from 'mobx-react-lite';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useStores } from '../stores/StoreContext';
+import CommentSection from '../components/CommentSection';  // Добавьте импорт
 
 type RecipeParams = {
   id: string;
@@ -124,6 +125,9 @@ const RecipeDetailPage: React.FC = observer(() => {
               ))}
             </ul>
           </Card.Text>
+
+          {/* Добавляем секцию комментариев */}
+          <CommentSection recipeId={recipe.id} />
         </Card.Body>
       </Card>
     </Container>
