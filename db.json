@@ -1,0 +1,61 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "email": "admin@example.com",
+      "password": "admin123"
+    },
+    {
+      "id": "2",
+      "username": "chef_anna",
+      "email": "anna@example.com",
+      "password": "password123"
+    }
+  ],
+  "recipes": [
+    {
+      "id": "1",
+      "title": "Итальянская паста карбонара",
+      "description": "Классическое итальянское блюдо с беконом и сливочным соусом",
+      "ingredients": "спагетти 400г, бекон 200г, яйца 4шт, пармезан 100г, соль, перец",
+      "user_id": 2,
+      "image_url": "https://images.unsplash.com/photo-1612874742237-6526221588e3?w=400",
+      "created_at": "2025-11-20T10:00:00Z"
+    },
+    {
+      "id": "2",
+      "title": "Греческий салат",
+      "description": "Свежий средиземноморский салат",
+      "ingredients": "помидоры 3шт, огурцы 2шт, фета 200г, маслины 100г, оливковое масло, орегано",
+      "user_id": 1,
+      "image_url": "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400",
+      "created_at": "2025-11-21T14:30:00Z"
+    },
+    {
+      "id": "a5ba",
+      "title": "test",
+      "description": "testtesttest",
+      "ingredients": "test,test",
+      "image_url": "https://bochkari.ru/upload/iblock/94b/dlzj5yzf6kbu3mwbm2p0c4dkoi79nsf7.jpg",
+      "user_id": "1",
+      "created_at": "2025-11-25T12:17:40.438Z"
+    }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "recipe_id": 1,
+      "user_id": 1,
+      "text": "Отличный рецепт! Получилось очень вкусно",
+      "created_at": "2025-11-22T09:15:00Z"
+    },
+    {
+      "id": "2",
+      "recipe_id": 1,
+      "user_id": 2,
+      "text": "Спасибо за отзыв! Рада, что понравилось",
+      "created_at": "2025-11-22T10:00:00Z"
+    }
+  ]
+}
