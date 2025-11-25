@@ -27,8 +27,8 @@ const CommentSection: React.FC<CommentSectionProps> = observer(({ recipeId }) =>
 
     try {
       await commentStore.createComment({
-        recipe_id: recipeId,
-        user_id: authStore.currentUser!.id,
+        recipeId: recipeId,      // Изменили recipe_id на recipeId
+        userId: authStore.currentUser!.id,  // Изменили user_id на userId
         text: commentText
       });
       setCommentText('');
@@ -91,7 +91,7 @@ const CommentSection: React.FC<CommentSectionProps> = observer(({ recipeId }) =>
                       {formatDate(comment.created_at)}
                     </small>
                   </div>
-                  {authStore.currentUser?.id === comment.user_id && (
+                  {authStore.currentUser?.id === comment.userId && (  // Изменили user_id на userId
                     <Button
                       variant="outline-danger"
                       size="sm"

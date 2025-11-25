@@ -68,8 +68,9 @@ const CreateEditRecipePage: React.FC = observer(() => {
           description,
           ingredients,
           image_url: imageUrl,
-          user_id: authStore.currentUser!.id
+          userId: authStore.currentUser!.id  
         });
+
         navigate(`/recipe/${newRecipe.id}`);
       }
     } catch (error) {

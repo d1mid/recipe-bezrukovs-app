@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
 import { useStores } from '../stores/StoreContext';
 import RecipeCard from '../components/RecipeCard';
-import { Recipe } from '../types';  // Добавили импорт
+import { Recipe } from '../types';
 
 const HomePage: React.FC = observer(() => {
   const { recipeStore } = useStores();
@@ -16,7 +16,7 @@ const HomePage: React.FC = observer(() => {
   if (recipeStore.isLoading) {
     return (
       <Container className="mt-5 text-center">
-        <Spinner animation="border" role="status">
+        <Spinner animation="border" role="status" style={{ color: '#2ECC71' }}>
           <span className="visually-hidden">Загрузка...</span>
         </Spinner>
       </Container>
@@ -24,11 +24,16 @@ const HomePage: React.FC = observer(() => {
   }
 
   return (
-    <Container className="mt-4">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1>Лента рецептов</h1>
-        <Link to="/recipe/create" className="btn btn-success">
-          + Добавить рецепт
+    <Container className="mt-5">
+      <div className="d-flex justify-content-between align-items-center mb-5">
+        <div>
+          <h1 className="page-title">Лента рецептов</h1>
+          <p style={{ color: '#7F8C8D', fontSize: '1.1rem' }}>
+            Откройте для себя вкусные рецепты от нашего сообщества
+          </p>
+        </div>
+        <Link to="/recipe/create" className="btn btn-custom-primary" style={{ textDecoration: 'none' }}>
+          + Создать рецепт
         </Link>
       </div>
 
@@ -37,12 +42,14 @@ const HomePage: React.FC = observer(() => {
       )}
 
       {recipeStore.recipes.length === 0 ? (
-        <Alert variant="info">
-          <p>Пока нет рецептов. Будьте первым, кто поделится своим рецептом!</p>
-          <Link to="/recipe/create" className="btn btn-primary">
-            Создать рецепт
+        <div className="text-center py-5">
+          <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>📖</div>
+          <h3 style={{ color: '#7F8C8D' }}>Пока нет рецептов</h3>
+          <p style={{ color: '#95A5A6' }}>Будьте первым, кто поделится своим рецептом!</p>
+          <Link to="/recipe/create" className="btn btn-custom-primary mt-3" style={{ textDecoration: 'none' }}>
+            Создать первый рецепт
           </Link>
-        </Alert>
+        </div>
       ) : (
         <Row>
           {recipeStore.recipes.map((recipe: Recipe) => (

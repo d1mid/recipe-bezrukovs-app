@@ -3,44 +3,58 @@ import { User, LoginCredentials, RegisterData } from '../types';
 
 const API_URL = 'http://localhost:5000';
 
+// Настройка axios для автоматической отправки токена
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 class AuthService {
   async login(credentials: LoginCredentials): Promise<User> {
-    const response = await axios.get<User[]>(`${API_URL}/users`, {
-      params: {
-        email: credentials.email,
-        password: credentials.password
+    try {
+      // json-server-auth endpoint для логина
+      const response = await axios.post(`${API_URL}/login`, credentials);
+      
+      const { accessToken, user } = response.data;
+      
+      // Сохраняем настоящий JWT токен
+      localStorage.setItem('token', accessToken);
+      localStorage.setItem('user', JSON.stringify(user));
+      
+      return user;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error('Неверный email или пароль');
       }
-    });
-
-    if (response.data.length === 0) {
-      throw new Error('Неверный email или пароль');
+      throw new Error('Ошибка при входе');
     }
-
-    const user = response.data[0];
-    const token = `fake-jwt-token-${user.id}`;
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(user));
-    
-    return user;
   }
 
   async register(data: RegisterData): Promise<User> {
-    const existingUsers = await axios.get<User[]>(`${API_URL}/users`, {
-      params: { email: data.email }
-    });
+    try {
+      // json-server-auth endpoint для регистрации
+      const response = await axios.post(`${API_URL}/register`, {
+        email: data.email,
+        password: data.password,
+        username: data.username
+      });
 
-    if (existingUsers.data.length > 0) {
-      throw new Error('Пользователь с таким email уже существует');
+      const { accessToken, user } = response.data;
+      
+      // Автоматически логиним после регистрации
+      localStorage.setItem('token', accessToken);
+      localStorage.setItem('user', JSON.stringify(user));
+
+      return user;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        throw new Error('Пользователь с таким email уже существует');
+      }
+      throw new Error('Ошибка при регистрации');
     }
-
-    const response = await axios.post<User>(`${API_URL}/users`, data);
-    const user = response.data;
-
-    const token = `fake-jwt-token-${user.id}`;
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(user));
-
-    return user;
   }
 
   logout(): void {
@@ -58,6 +72,19 @@ class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  isTokenValid(): boolean {
+    const token = this.getToken();
+    if (!token) return false;
+
+    try {
+      // Проверяем срок действия токена
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.exp * 1000 > Date.now();
+    } catch {
+      return false;
+    }
   }
 }
 

@@ -59,7 +59,8 @@ const RecipeDetailPage: React.FC = observer(() => {
   }
 
   const recipe = recipeStore.currentRecipe;
-  const isOwner = authStore.currentUser?.id === recipe.user_id;
+  const isOwner = authStore.currentUser?.id === recipe.userId; 
+
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);

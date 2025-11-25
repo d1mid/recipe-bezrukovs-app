@@ -3,7 +3,7 @@ import { Recipe } from '../types';
 
 const API_URL = 'http://localhost:5000';
 
-export class RecipeService {
+class RecipeService {
   async getAllRecipes(): Promise<Recipe[]> {
     const response = await axios.get<Recipe[]>(`${API_URL}/recipes?_sort=created_at&_order=desc`);
     return response.data;
@@ -15,7 +15,7 @@ export class RecipeService {
   }
 
   async getRecipesByUserId(userId: string | number): Promise<Recipe[]> {
-    const response = await axios.get<Recipe[]>(`${API_URL}/recipes?user_id=${userId}&_sort=created_at&_order=desc`);
+    const response = await axios.get<Recipe[]>(`${API_URL}/recipes?userId=${userId}&_sort=created_at&_order=desc`);
     return response.data;
   }
 

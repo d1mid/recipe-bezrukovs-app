@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Navbar, Container, Nav, Button } from 'react-bootstrap';
+import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { useStores } from '../stores/StoreContext';
 
@@ -14,35 +14,42 @@ const Header: React.FC = observer(() => {
   };
 
   return (
-    <Navbar bg="dark" variant="dark" expand="lg">
+    <Navbar expand="lg" className="custom-navbar">
       <Container>
-        <Navbar.Brand as={Link} to="/">
-          🍳 Рецепты
+        <Navbar.Brand as={Link} to="/" style={{ fontSize: '1.5rem', fontWeight: '700' }}>
+          🍳 RecipeBook
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            {authStore.isAuthenticated && (
-              <>
-                <Nav.Link as={Link} to="/">Главная</Nav.Link>
-                <Nav.Link as={Link} to="/my-recipes">Мои рецепты</Nav.Link>
-              </>
-            )}
-          </Nav>
-          <Nav>
+          <Nav className="ms-auto align-items-center">
             {authStore.isAuthenticated ? (
               <>
-                <Navbar.Text className="me-3">
-                  Привет, <strong>{authStore.currentUser?.username}</strong>!
-                </Navbar.Text>
-                <Button variant="outline-light" size="sm" onClick={handleLogout}>
-                  Выйти
-                </Button>
+                <Nav.Link as={Link} to="/">
+                  Главная
+                </Nav.Link>
+                <Nav.Link as={Link} to="/my-recipes">
+                  Мои рецепты
+                </Nav.Link>
+                <div className="d-flex align-items-center ms-3">
+                  <span className="me-3" style={{ color: '#7F8C8D', fontSize: '0.9rem' }}>
+                    {authStore.currentUser?.username}
+                  </span>
+                  <button 
+                    className="btn btn-custom-outline btn-sm"
+                    onClick={handleLogout}
+                  >
+                    Выйти
+                  </button>
+                </div>
               </>
             ) : (
               <>
-                <Nav.Link as={Link} to="/login">Вход</Nav.Link>
-                <Nav.Link as={Link} to="/register">Регистрация</Nav.Link>
+                <Nav.Link as={Link} to="/login">
+                  Вход
+                </Nav.Link>
+                <Link to="/register" className="btn btn-custom-primary btn-sm ms-2">
+                  Регистрация
+                </Link>
               </>
             )}
           </Nav>

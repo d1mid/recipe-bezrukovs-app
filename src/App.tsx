@@ -9,6 +9,7 @@ import RecipeDetailPage from './pages/RecipeDetailPage';
 import CreateEditRecipePage from './pages/CreateEditRecipePage';
 import MyRecipesPage from './pages/MyRecipesPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import './App.css';  // Убедитесь, что эта строка есть
 
 function App() {
   return (
@@ -37,7 +38,6 @@ function App() {
             } 
           />
           
-          {/* ВАЖНО: /recipe/create должен быть ВЫШЕ /recipe/:id */}
           <Route 
             path="/recipe/create" 
             element={
@@ -56,7 +56,6 @@ function App() {
             } 
           />
           
-          {/* Динамический роут должен быть последним */}
           <Route 
             path="/recipe/:id" 
             element={

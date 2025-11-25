@@ -1,12 +1,12 @@
 import React from 'react';
-import { Card, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Recipe } from '../types';
 
 interface RecipeCardProps {
   recipe: Recipe;
   showActions?: boolean;
-  onDelete?: (id: string | number) => void;  // Изменили тип
+  onDelete?: (id: string | number) => void;
 }
 
 const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, showActions = false, onDelete }) => {
@@ -20,27 +20,27 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, showActions = false, on
   };
 
   return (
-    <Card className="mb-3 h-100">
+    <Card className="recipe-card fade-in">
       <Card.Img 
         variant="top" 
         src={recipe.image_url} 
         alt={recipe.title}
-        style={{ height: '200px', objectFit: 'cover' }}
       />
-      <Card.Body className="d-flex flex-column">
-        <Card.Title>{recipe.title}</Card.Title>
-        <Card.Text className="flex-grow-1">
+      <Card.Body className="recipe-card-body">
+        <h3 className="recipe-title">{recipe.title}</h3>
+        <p className="recipe-description">
           {recipe.description.length > 100 
             ? `${recipe.description.substring(0, 100)}...` 
             : recipe.description}
-        </Card.Text>
-        <Card.Text className="text-muted small">
-          {formatDate(recipe.created_at)}
-        </Card.Text>
-        <div className="d-flex gap-2">
+        </p>
+        <div className="d-flex justify-content-between align-items-center mt-3">
+          <small style={{ color: '#95A5A6' }}>{formatDate(recipe.created_at)}</small>
+        </div>
+        <div className="d-flex gap-2 mt-3">
           <Link 
             to={`/recipe/${recipe.id}`} 
-            className="btn btn-primary btn-sm flex-grow-1"
+            className="btn btn-custom-primary btn-sm flex-grow-1"
+            style={{ textDecoration: 'none' }}
           >
             Подробнее
           </Link>
@@ -48,17 +48,16 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, showActions = false, on
             <>
               <Link 
                 to={`/recipe/edit/${recipe.id}`} 
-                className="btn btn-warning btn-sm"
+                className="btn btn-outline-warning btn-sm"
               >
-                Редактировать
+                ✏️
               </Link>
-              <Button 
-                variant="danger" 
-                size="sm"
+              <button 
+                className="btn btn-outline-danger btn-sm"
                 onClick={() => onDelete && onDelete(recipe.id)}
               >
-                Удалить
-              </Button>
+                🗑️
+              </button>
             </>
           )}
         </div>
